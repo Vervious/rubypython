@@ -84,6 +84,7 @@ class RubyPython::Interpreter
     @libbase = "#{::FFI::Platform::LIBPREFIX}#{@version_name}"
     @libext = ::FFI::Platform::LIBSUFFIX
     @libname = "#{@libbase}.#{@libext}"
+    @libname2 = "#{@libbase}.a"
 
     # We may need to look in multiple locations for Python, so let's
     # build this as an array.
@@ -105,7 +106,7 @@ class RubyPython::Interpreter
       # On Unixes, let's look in some standard alternative places, too.
       # Just in case. Some Unixes don't include a .so symlink when they
       # should, so let's look for the base cases of .so.1 and .so.1.0, too.
-      [ @libname, "#{@libname}.1", "#{@libname}.1.0" ].each do |name|
+      [ @libname, @libname2, "#{@libname}.1", "#{@libname}.1.0" ].each do |name|
         if ::FFI::Platform::ARCH != 'i386'
           @locations << File.join("/opt/local/lib64", name)
           @locations << File.join("/opt/lib64", name)
