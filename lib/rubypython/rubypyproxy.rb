@@ -134,6 +134,8 @@ module RubyPython
     #    passed into the block.
     def method_missing(name, *args, &block)
       name = name.to_s
+      
+      puts "Delegating: #{name}"
 
       if name =~ /\?$/
         begin
@@ -186,8 +188,9 @@ module RubyPython
     #than +PyObject#callObject+. For internal use only.
     def _method_call(pFunc, args, pKeywords)
       puts "PFunc: #{pFunc}"
-      puts "args: ${args}"
-      puts "pKeywords: ${pKeywords}"
+      puts "PFunc details: #{pFunc}"
+      puts "args: #{args}"
+      puts "pKeywords: #{pKeywords}"
       pTuple = PyObject.buildArgTuple(*args)
       pReturn = if pKeywords
         pFunc.callObjectKeywords(pTuple, pKeywords)
