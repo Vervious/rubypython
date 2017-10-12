@@ -106,6 +106,8 @@ class RubyPython::Interpreter
       # On Unixes, let's look in some standard alternative places, too.
       # Just in case. Some Unixes don't include a .so symlink when they
       # should, so let's look for the base cases of .so.1 and .so.1.0, too.
+      puts "trying to find python lib"
+      puts "Searching for: #{@libname}, #{@libname2}, and more..."
       [ @libname, @libname2, "#{@libname}.1", "#{@libname}.1.0" ].each do |name|
         if ::FFI::Platform::ARCH != 'i386'
           @locations << File.join("/opt/local/lib64", name)
@@ -119,6 +121,7 @@ class RubyPython::Interpreter
         @locations << File.join("/usr/local/lib", name)
         @locations << File.join("/usr/lib", name)
       end
+      puts "All locations: #{@locations}"
     end
 
     if ::FFI::Platform.windows?
@@ -142,6 +145,7 @@ class RubyPython::Interpreter
       path = File.dirname(location)
       base = File.basename(location, ".#{@libext}")
       @locations << File.join(path, "#{base}.so")    # Standard Unix
+      @locations << File.join(path, "#{base}.a")    # Standard Unix
       @locations << File.join(path, "#{base}.dylib") # Mac OS X
       @locations << File.join(path, "#{base}.dll")   # Windows
     end
@@ -157,6 +161,8 @@ class RubyPython::Interpreter
         break
       end
     end
+    
+    puts "HELLO: we are looking at library: #{library}"
 
     library
   end
