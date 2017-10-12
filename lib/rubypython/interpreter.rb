@@ -163,6 +163,7 @@ class RubyPython::Interpreter
     end
     
     puts "HELLO: we are looking at library: #{library}"
+    puts "HELLO: we are looking at python: #{@python}"
 
     library
   end
